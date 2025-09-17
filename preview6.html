@@ -117,7 +117,7 @@
       onApprove: function(data, actions) {
         return actions.order.capture().then(function(details) {
           // After payment capture, call your Netlify function to verify and get links
-          fetch("https://YOUR_SITE.netlify.app/.netlify/functions/verify-payment", {
+          fetch('/.netlify/functions/verify-paypal', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
