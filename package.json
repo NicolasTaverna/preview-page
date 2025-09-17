@@ -1,7 +1,0 @@
-{
-  "name": "preview-site",
-  "version": "1.0.0",
-  "dependencies": {
-    "googleapis": "^121.0.0"
-  }
-}
