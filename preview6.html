@@ -116,13 +116,16 @@
       },
       onApprove: function(data, actions) {
         return actions.order.capture().then(function(details) {
-          // After payment capture, call your Netlify function to verify and get links
-          fetch('/.netlify/functions/verify-paypal', {
+          // At this point payment is captured and status = COMPLETED
+          console.log('Captured payment:', details);
+      
+          // Now call Netlify Function
+          fetch("https://YOUR_SITE.netlify.app/.netlify/functions/verify-payment", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              orderId: data.orderID,
-              ref: orderRef
+              orderId: data.orderID, // PayPal order ID
+              ref: orderRef          // your internal ref from URL
             })
           })
           .then(res => res.json())
@@ -130,7 +133,6 @@
             if (result.error) {
               alert("Payment verification failed: " + result.error);
             } else {
-              // Show the download section with both links
               document.getElementById("download-link").href = result.directDownloadUrl;
               document.getElementById("shareable-link").href = result.shareableUrl;
               document.getElementById("download-section").style.display = 'block';
